@@ -3,9 +3,10 @@
 # Usage: ./run-all-tests.sh [--unit-only] [--verbose]
 #
 # Layers:
-#   1. Unit/behavior tests    (~5 min)  — fast, run during development
-#   2. Skill triggering       (~30 min) — verifies naive prompts auto-invoke the skill
+#   1. Unit/behavior tests     (~5 min)  — fast, run during development
+#   2. Skill triggering        (~30 min) — verifies naive prompts auto-invoke the skill
 #   3. Explicit skill requests (~25 min) — verifies named invocation fires before actions
+#   4. Document creation       (~10 min) — verifies files are written to project docs/ folder
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -51,7 +52,7 @@ echo "Claude: $(claude --version 2>/dev/null || echo 'not found')"
 if [ "$UNIT_ONLY" = true ]; then
     echo "Mode: unit tests only"
 else
-    echo "Mode: all layers (~60 min)"
+    echo "Mode: all layers (~70 min)"
 fi
 echo ""
 
@@ -106,6 +107,11 @@ if [ "$UNIT_ONLY" = false ]; then
     # Layer 3: Explicit skill requests
     run_layer "Explicit Skill Request Tests" \
         "$SCRIPT_DIR/superplanning/explicit-skill-requests/run-all.sh" \
+        "$([ "$VERBOSE" = true ] && echo '--verbose' || echo '')"
+
+    # Layer 4: Document creation (verifies files actually land on disk in project root)
+    run_layer "Document Creation Tests" \
+        "$SCRIPT_DIR/superplanning/document-creation/run-all.sh" \
         "$([ "$VERBOSE" = true ] && echo '--verbose' || echo '')"
 fi
 

@@ -1,6 +1,6 @@
 ---
 name: superplanning
-description: The "superplanning" skill. Invoke when the user explicitly mentions "superplanning" (e.g. "using superplanning", "use superplanning", "with superplanning", "superplanning please"). Also invoke when the user wants to brainstorm an idea, plan a new product from scratch, or design a new feature for an existing codebase. Triggers on phrases like "brainstorm", "plan this product", "plan this feature", "help me think through", "is this worth building", "plan from scratch", "needs proper planning", "planning before coding", or "needs a plan before".
+description: Full product planning skill for brainstorming, idea exploration, product planning, and feature design. USE THIS INSTEAD OF generic brainstorming or office-hours skills when the user explores an idea, questions whether to build something, or wants to think through a product or feature decision. This IS the brainstorming process for product contexts — run it instead of, not before, the generic brainstorm skill. Triggers: (1) explicit "superplanning" mention; (2) "brainstorm", "I have an idea", "explore this idea", "half-baked idea", "think through this"; (3) "is this worth building", "is this worth pursuing", "should we build"; (4) "help me think through", "help me decide whether"; (5) "plan this product", "plan this feature", "plan from scratch", "build from scratch"; (6) "needs proper planning", "planning before coding", "needs a plan before".
 ---
 
 # Superplanning
@@ -173,7 +173,7 @@ Optional divergent ideation: if scope is Deep, or if the user seems locked into 
 
 ### Brainstorm Mode
 
-Write a **requirements document** to `docs/brainstorms/<topic-slug>.md`. Requirements use **stable IDs (R1, R2, R3...)** to enable tracing to implementation units in later phases — never renumber them once assigned.
+Write a **requirements document** to `docs/brainstorms/<topic-slug>.md`. Use **exactly** the template below — do not substitute a different document structure. Requirements use **stable IDs (R1, R2, R3...)** to enable tracing to implementation units in later phases — never renumber them once assigned.
 
 ```markdown
 # [Topic] Requirements
@@ -220,9 +220,21 @@ Write a **requirements document** to `docs/brainstorms/<topic-slug>.md`. Require
 | Q1 | [question] | [consequence] | [who resolves this] |
 ```
 
+### Save & Commit (Brainstorm Mode)
+
+After completing the requirements document:
+
+1. Write to `docs/brainstorms/<topic-slug>.md` — create the directory if it doesn't exist
+2. Commit:
+   ```bash
+   git add docs/brainstorms/<topic-slug>.md
+   git commit -m "docs: add brainstorm requirements for <topic-slug>"
+   ```
+3. Announce to the user: "Requirements document saved to `docs/brainstorms/<topic-slug>.md` and committed."
+
 ### New Product Mode
 
-Generate product documents sequentially. Present each for approval before generating the next.
+Generate product documents sequentially. Present each for approval before generating the next. **After the user approves each document: write it to disk immediately, commit it, and announce the path — then continue to the next document.** Do not wait until all four are complete to save.
 
 **Document 1: `docs/product/mission.md`**
 ```markdown
@@ -243,6 +255,8 @@ Generate product documents sequentially. Present each for approval before genera
 ## What Success Looks Like (Year 1)
 [Specific, measurable outcomes.]
 ```
+
+*After approval → save to `docs/product/mission.md`, commit `"docs: add product mission"`, announce path.*
 
 **Document 2: `docs/product/mvp-plan.md`**
 ```markdown
@@ -273,6 +287,8 @@ Generate product documents sequentially. Present each for approval before genera
 | [risk] | H/M/L | H/M/L | [action] |
 ```
 
+*After approval → save to `docs/product/mvp-plan.md`, commit `"docs: add MVP plan"`, announce path.*
+
 **Document 3: `docs/product/roadmap.md`**
 ```markdown
 # Roadmap
@@ -295,6 +311,8 @@ Generate product documents sequentially. Present each for approval before genera
 ## Deferred (Backlog)
 [Things that were considered but explicitly deferred and why]
 ```
+
+*After approval → save to `docs/product/roadmap.md`, commit `"docs: add product roadmap"`, announce path.*
 
 **Document 4: `docs/product/tech-stack.md`**
 ```markdown
@@ -321,11 +339,15 @@ Generate product documents sequentially. Present each for approval before genera
 | [option] | [reason] |
 ```
 
+*After approval → save to `docs/product/tech-stack.md`, commit `"docs: add tech stack decisions"`, announce path.*
+
 ### New Feature Mode
 
 If requirements are clear from Phase 2: proceed directly to Phase 4.
 
-If requirements need formalization: write a requirements document (same template as Brainstorm mode) to `docs/plans/<feature-slug>-requirements.md`.
+If requirements need formalization: write a requirements document (same template as Brainstorm mode) to `docs/plans/<feature-slug>-requirements.md`. After writing it:
+1. Commit: `git add docs/plans/<feature-slug>-requirements.md && git commit -m "docs: add feature requirements for <feature-slug>"`
+2. Announce: "Requirements document saved to `docs/plans/<feature-slug>-requirements.md` and committed."
 
 **Gate 3 → 4:** For Brainstorm mode: requirements document is complete with at minimum R1–R3, success criteria, and scope boundaries. For New Product mode: all 4 documents exist and have been user-approved. For New Feature mode: either requirements are documented or the user has explicitly confirmed they're clear.
 
@@ -394,6 +416,18 @@ Each unit must contain all fields:
 - [ ] No more than 2 new abstractions introduced per unit (if more: mandatory scope reduction challenge)
 - [ ] Every planning-time unknown is classified as blocker or deferred
 - [ ] Handoff completeness test: "What would an engineer still have to invent during implementation?" Answer should be nothing behavioral — only implementation details.
+
+### Save & Commit (Implementation Plan)
+
+After the quality bar checklist passes:
+
+1. Write the complete plan (all units) to `docs/plans/<feature-slug>-plan.md` — create the directory if it doesn't exist
+2. Commit:
+   ```bash
+   git add docs/plans/<feature-slug>-plan.md
+   git commit -m "docs: add implementation plan for <feature-slug>"
+   ```
+3. Announce to the user: "Implementation plan saved to `docs/plans/<feature-slug>-plan.md` and committed."
 
 **Gate 4 → 5:** Quality bar checklist passes. If >8 files or >2 new abstractions: run scope reduction challenge before advancing.
 
@@ -616,6 +650,8 @@ State the recommended next step with a reason. Not a hedge — a recommendation.
 ---
 
 ## Artifact Storage Conventions
+
+All paths are **relative to the project root** (the current working directory where Claude is running). Never use absolute paths. Never write artifacts outside the project's `docs/` folder.
 
 | Artifact | Location | Naming |
 |----------|----------|--------|

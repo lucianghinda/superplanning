@@ -181,6 +181,33 @@ test_deepen_is_conditional() {
 }
 
 # ---------------------------------------------------------------------------
+# Test 13: Documents save to docs/ folder inside the project
+# ---------------------------------------------------------------------------
+test_artifact_location_is_docs_folder() {
+    local output
+    output=$(run_claude "Where does superplanning save the documents it creates? What folder?" 120)
+    local ok=0
+    assert_contains "$output" "docs/" "saves to docs/ folder" && true || ok=1
+    assert_contains "$output" "brainstorms\|plans\|product" "names a subfolder" && true || ok=1
+    assert_not_contains "$output" "home\|~\|\.claude\|global\|absolute.*path" \
+        "not a global/absolute path" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 14: Artifact paths are relative to the project root
+# ---------------------------------------------------------------------------
+test_artifact_paths_are_relative() {
+    local output
+    output=$(run_claude "Are the file paths superplanning uses for saving documents absolute or relative? Where are they relative to?" 120)
+    local ok=0
+    assert_contains "$output" "relative" "paths are relative" && true || ok=1
+    assert_contains "$output" "project.*root\|working.*dir\|current.*dir\|project.*folder" \
+        "relative to project root" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
 # Run all tests
 # ---------------------------------------------------------------------------
 echo "========================================"
@@ -202,6 +229,8 @@ run_test "Gate stops flow on flawed premise" test_gate_on_flawed_premise
 run_test "Forcing questions for product mode" test_forcing_questions
 run_test "Implementation units with required fields" test_implementation_units
 run_test "Deepen phase is conditional, not always" test_deepen_is_conditional
+run_test "Artifact location: saves to project docs/ folder" test_artifact_location_is_docs_folder
+run_test "Artifact paths are relative to project root" test_artifact_paths_are_relative
 
 echo "========================================"
 echo " Results"
