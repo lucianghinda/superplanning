@@ -1,0 +1,1 @@
+I want to brainstorm using superplanning. The idea: what if we built a tool that analyzes your git commit patterns and suggests when you're most productive, then blocks distracting apps during those windows?

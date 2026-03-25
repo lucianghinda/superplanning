@@ -1,0 +1,1 @@
+I want to build a new SaaS product for independent restaurant owners to manage their suppliers and automate reordering when stock runs low. I need a proper plan - the mission, a roadmap, the tech stack, the whole thing. Can you help me plan this out from scratch?

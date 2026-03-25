@@ -1,0 +1,1 @@
+Please use the superplanning skill to create a complete product plan. The product: an async standup tool for remote engineering teams with AI-generated summaries of video updates.

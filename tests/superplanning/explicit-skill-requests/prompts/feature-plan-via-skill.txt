@@ -1,0 +1,1 @@
+Use superplanning to plan this feature: add real-time collaborative editing to our document app. Multiple users should be able to edit the same document simultaneously with cursor presence and conflict resolution.

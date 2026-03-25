@@ -1,0 +1,1 @@
+We need to add a notification system to our existing Rails app. Users should receive email alerts and in-app notifications when they get a new comment, when a task is assigned to them, or when a deadline is approaching. This is a multi-step feature and needs proper planning before we start coding.

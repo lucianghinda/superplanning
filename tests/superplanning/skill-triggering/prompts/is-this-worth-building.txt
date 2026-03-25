@@ -1,0 +1,1 @@
+Is this worth building? I keep seeing developers complain about context switching between their IDE, browser, and terminal. I'm thinking about building a unified workspace that combines all three. But maybe this is too ambitious or the market is already saturated.

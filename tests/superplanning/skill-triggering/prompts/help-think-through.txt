@@ -1,0 +1,1 @@
+Help me think through whether adding social login (Google and GitHub OAuth) to our developer tool is the right next step. Our users currently use email+password. I'm not sure if social login is worth the added complexity for our audience of backend engineers.

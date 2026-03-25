@@ -1,0 +1,1 @@
+I have a half-baked idea I want to explore: a tool that helps freelancers track which clients drain their energy vs which ones energize them, and correlates that with profitability data. Before we build anything, can we just think through whether this is worth pursuing and what it would look like?

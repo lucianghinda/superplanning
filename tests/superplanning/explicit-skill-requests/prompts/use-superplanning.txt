@@ -1,0 +1,1 @@
+Use superplanning to help me work through a new feature idea: our SaaS app needs a billing portal where customers can view invoices, update payment methods, and manage their subscription tier.

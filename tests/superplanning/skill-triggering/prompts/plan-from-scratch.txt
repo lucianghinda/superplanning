@@ -1,0 +1,1 @@
+I want to create a product that helps remote engineering teams run better async standups. Instead of synchronous meetings, team members record short video updates and the tool generates AI summaries. I need to plan the entire product from the ground up.
