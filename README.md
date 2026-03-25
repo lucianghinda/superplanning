@@ -61,6 +61,10 @@ Phase 7: HAND OFF           — summary, artifacts, recommended next step
 
 Each phase has a gate. The gate question: *"What would the next phase still have to invent if we stopped here?"* If the answer is product behavior, scope boundaries, or success criteria the current phase is not done.
 
+Here is Phase 0 running in practice — detecting the mode and scope, then moving directly into Phase 1:
+
+![Superplanning detecting New Product mode and routing to Phase 1](superplanning-detection.png)
+
 ## What Makes It Different
 
 I analyzed each source skill for what it does that no other skill does. Here is what I found worth preserving.
