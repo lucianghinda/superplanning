@@ -57,6 +57,10 @@ run_creation_test \
     "Brainstorm mode writes docs/brainstorms/<topic>.md into project root" \
     "$SCRIPT_DIR/run-brainstorm-test.sh"
 
+run_creation_test \
+    "New Product mode writes all 4 docs/product/ documents" \
+    "$SCRIPT_DIR/run-new-product-test.sh"
+
 echo ""
 echo "=== Summary ==="
 for r in "${RESULTS[@]}"; do

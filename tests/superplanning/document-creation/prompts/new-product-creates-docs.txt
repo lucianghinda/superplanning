@@ -1,0 +1,1 @@
+Use the superplanning skill to plan a new product: a simple API for converting markdown to PDF. Skip all questions and go through all phases automatically. For every document presented, approve it and continue. Write all product documents to disk.

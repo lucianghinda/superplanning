@@ -38,6 +38,20 @@ These rules are non-negotiable. Load [Anti-Sycophancy Rules](references/anti-syc
 
 ---
 
+## Phase Transition Protocol (Apply at Every Gate)
+
+Before crossing any gate, you MUST:
+
+1. **Announce the transition** — print a line: `## Entering Phase [N]: [PHASE NAME]`
+2. **State the gate condition** — one sentence confirming why the gate is satisfied
+3. **Name the deliverables of the next phase** — list what the next phase will produce
+
+This is mandatory. You may not begin work on the next phase without printing the announcement first. If you find yourself producing next-phase artifacts without having printed the transition announcement, **STOP**, backtrack, and complete the current phase first.
+
+**Specific checkpoint for New Product mode:** Phase 3 (Define) produces 4 documents: `mission.md`, `mvp-plan.md`, `roadmap.md`, `tech-stack.md`. Do not begin Phase 4 (Structure) until all 4 documents exist on disk and have been user-approved.
+
+---
+
 ## Phase 0: INTAKE & ROUTE
 
 **Goal:** Detect mode, check for prior work, classify scope.
@@ -153,7 +167,7 @@ Stage routing (ask only what isn't already answered):
 - Paying customers → Q4, Q5, Q6
 - Pure engineering/infra → Q2, Q4 only
 
-After all questions, run the **Premise Challenge** (5-step sequence from forcing-questions.md).
+After all forcing questions are answered, run the **Premise Challenge** (5-step sequence from forcing-questions.md). This is NOT optional — the Premise Challenge is a required step before Gate 2 → 3 can be evaluated. If you reach the gate checkpoint without having run the Premise Challenge, go back and run it now.
 
 ### New Feature Mode
 
@@ -164,6 +178,17 @@ Then ask 2–3 planning questions from the forcing-questions.md routing table.
 Optional divergent ideation: if scope is Deep, or if the user seems locked into a single approach, spawn 2 parallel sub-agents to explore alternative implementations. Present their findings as options before moving forward.
 
 **Gate 2 → 3:** The idea has survived the pressure test. If the premise is flawed — stop here. State the flaw clearly. Propose a reframe. Do not proceed to Phase 3 until the premise is corrected or explicitly accepted as a known risk.
+
+**Mandatory transition checkpoint:** Before entering Phase 3, use `AskUserQuestion` (Claude Code), `request_user_input` (Codex), or `ask_user` (Gemini) to present a summary and confirm readiness. Structure the question as:
+
+- **Summary:** 1–2 sentences on what Phase 2 revealed (premise strength, key risks, open assumptions)
+- **Next up:** List Phase 3 deliverables for the detected mode:
+  - Brainstorm → requirements document (`docs/brainstorms/<slug>.md`)
+  - New Product → 4 documents: `mission.md`, `mvp-plan.md`, `roadmap.md`, `tech-stack.md`
+  - New Feature → requirements document if needed (`docs/plans/<slug>-requirements.md`)
+- **Question:** "Ready to proceed to Phase 3 (Define)?"
+
+Do not begin Phase 3 work until the user responds. This blocking question is the gate — skipping it means Phase 3 was never entered.
 
 ---
 

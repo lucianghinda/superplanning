@@ -208,6 +208,35 @@ test_artifact_paths_are_relative() {
 }
 
 # ---------------------------------------------------------------------------
+# Test 15: Phase 3 (Define) is mandatory for New Product mode with all 4 docs
+# ---------------------------------------------------------------------------
+test_phase3_mandatory_for_product() {
+    local output
+    output=$(run_claude "In superplanning New Product mode, what happens between the Challenge & Explore phase and the Structure phase? What documents must be created?" 120)
+    local ok=0
+    assert_contains "$output" "define\|phase 3" "Phase 3 (Define) is named" && true || ok=1
+    assert_contains "$output" "mission" "mission.md required" && true || ok=1
+    assert_contains "$output" "mvp" "mvp-plan.md required" && true || ok=1
+    assert_contains "$output" "roadmap" "roadmap.md required" && true || ok=1
+    assert_contains "$output" "tech.*stack\|tech-stack" "tech-stack.md required" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 16: Gate 2->3 requires user confirmation before proceeding
+# ---------------------------------------------------------------------------
+test_gate_2_3_requires_confirmation() {
+    local output
+    output=$(run_claude "In superplanning, what must happen at the Gate 2 to 3 transition? Does the assistant just proceed automatically or must it ask the user something first?" 120)
+    local ok=0
+    assert_contains "$output" "ask\|confirm\|checkpoint\|AskUserQuestion\|user.*respond\|blocking" \
+        "gate requires user interaction" && true || ok=1
+    assert_contains "$output" "phase 3\|define" \
+        "names Phase 3 (Define)" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
 # Run all tests
 # ---------------------------------------------------------------------------
 echo "========================================"
@@ -231,6 +260,8 @@ run_test "Implementation units with required fields" test_implementation_units
 run_test "Deepen phase is conditional, not always" test_deepen_is_conditional
 run_test "Artifact location: saves to project docs/ folder" test_artifact_location_is_docs_folder
 run_test "Artifact paths are relative to project root" test_artifact_paths_are_relative
+run_test "Phase 3 (Define) mandatory for New Product with all 4 docs" test_phase3_mandatory_for_product
+run_test "Gate 2->3 requires user confirmation before proceeding" test_gate_2_3_requires_confirmation
 
 echo "========================================"
 echo " Results"
