@@ -7,7 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 PROMPT_FILE="$SCRIPT_DIR/prompts/brainstorm-creates-doc.txt"
-MAX_TURNS="${1:-20}"
+MAX_TURNS="${1:-25}"
 TIMEOUT=600
 
 # Create a temp project dir with a git repo
