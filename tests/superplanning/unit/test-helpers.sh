@@ -9,13 +9,14 @@ PLUGIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 run_claude() {
     local prompt="$1"
     local timeout="${2:-120}"
+    local max_turns="${3:-3}"
     local output_file
     output_file=$(mktemp)
 
     if timeout "$timeout" claude -p "$prompt" \
         --plugin-dir "$PLUGIN_DIR" \
         --dangerously-skip-permissions \
-        --max-turns 3 \
+        --max-turns "$max_turns" \
         > "$output_file" 2>&1; then
         cat "$output_file"
         rm -f "$output_file"

@@ -10,10 +10,10 @@ Used in Phase 2 (CHALLENGE & EXPLORE) of the superplanning flow.
 | Mode | Context | Questions to use |
 |------|---------|-----------------|
 | Brainstorm | Any | Product Pressure Test |
-| New Product — pre-product | No users yet | Q1, Q2, Q3 |
-| New Product — has users | People using, not yet paying | Q2, Q4, Q5 |
-| New Product — paying customers | Real revenue | Q4, Q5, Q6 |
-| New Product — pure engineering/infra | Technical initiative | Q2, Q4 only |
+| New Product — pre-product | No users yet | Q0, Q1, Q2, Q3 |
+| New Product — has users | People using, not yet paying | Q0, Q2, Q4, Q5 |
+| New Product — paying customers | Real revenue | Q4, Q5, Q6 (skip Q0 — fit already proven) |
+| New Product — pure engineering/infra | Technical initiative | Q0, Q2, Q4 only |
 | New Feature | Any | Premise Challenge + 2–3 Planning Questions |
 
 Smart-skip: if the user's earlier answers already cover a question, skip it. Only ask questions whose answers are not yet clear.
@@ -47,6 +47,18 @@ Before generating approaches, challenge the request to catch misframing. Match d
 
 Ask ONE AT A TIME. Push on each until the answer is specific, evidence-based, and uncomfortable. Comfort means the answer has not gone deep enough.
 
+### Q0: Founder-Market Fit
+
+**Ask:** "What in your background, experience, or current access gives you an unfair advantage working on this specific problem? Why would the best possible team for this be *you* rather than a random competent team?"
+
+**Push until hearing:** A specific skill, experience, or access that is genuinely differentiated. Domain expertise. Prior direct exposure. A network no one else has. Something that makes their unfair advantage concrete and non-generic.
+
+**Red flags:** "We're passionate about this space." "We've always been interested in this problem." "We're fast learners." These are table stakes, not advantages. Passion is not a moat.
+
+**Engineering/infra reframe:** "What operational experience, system knowledge, or technical context makes your team the right one to own this? What have you seen break that others haven't?"
+
+---
+
 ### Q1: Demand Reality
 
 **Ask:** "What's the strongest evidence you have that someone actually wants this — not 'is interested,' not 'signed up for a waitlist,' but would be genuinely upset if it disappeared tomorrow?"
@@ -59,6 +71,7 @@ Ask ONE AT A TIME. Push on each until the answer is specific, evidence-based, an
 1. Language precision — are key terms defined? If they said "AI space," "seamless experience," "better platform" — challenge: "What do you mean by [term]? Can you define it so I could measure it?"
 2. Hidden assumptions — what does their framing take for granted? Name one assumption and ask if it's verified.
 3. Real vs hypothetical — "I think developers would want..." is hypothetical. "Three developers at my last company spent 10 hours a week on this" is real.
+4. Frequency check — "How often does this job arise? Is this a daily friction, a weekly hassle, or once a year? A painful-but-rare problem is a fundamentally different product opportunity than a frequent-and-painful one."
 
 ---
 
@@ -131,6 +144,8 @@ Ask these in sequence (stop at the first one that reveals a gap):
 4. **The inversion test:** "What would make this fail? What's the most likely way this ships and still doesn't solve the problem?"
 
 5. **The scope test:** "Is this the minimum version that proves the hypothesis, or have we already added scope that assumes the hypothesis is true?"
+
+6. **The distribution test:** "What's the specific action that brings the first 10 users to this product — not the category, the action? An email to someone you know? A post in a specific community? A cold outreach to a named person? If the honest answer is 'I don't know,' that's a Phase 6 research target, not an assumption to paper over."
 
 If the premise doesn't survive, stop. Surface the flaw, propose a reframe, and do not proceed with planning until the premise is either corrected or explicitly accepted as a known risk.
 
