@@ -58,15 +58,25 @@ This is mandatory. You may not begin work on the next phase without printing the
 
 ### Step 0.1: Detect Mode
 
-From the user's input, determine mode:
+**Before checking input signals:** Scan the working directory for application code. Check for:
+- Source files (`*.rb`, `*.py`, `*.js`, `*.ts`, `*.go`, `*.rs`, etc.)
+- Framework markers (`Gemfile`, `package.json`, `go.mod`, `Cargo.toml`, `requirements.txt`, etc.)
+- Application directories (`app/`, `src/`, `lib/` — beyond `docs/`)
+
+If **no application code exists** (only `docs/`, empty dir, or planning files only):
+- If input matches Brainstorm signals → **Brainstorm** (user wants to explore, not build yet)
+- Otherwise → **New Product** (there is nothing to add a feature to)
+- Do NOT route to New Feature in an empty directory. If the user's phrasing sounds feature-like but no codebase exists, ask: "There's no existing codebase here. Are you planning a new product from scratch, or is there an existing codebase elsewhere?"
+
+If **application code exists:** proceed to the signal table below for input-based routing.
 
 | Signal | Mode |
 |--------|------|
 | "explore whether," "is this worth," "I have an idea," "help me think through," "brainstorm" | **Brainstorm** |
-| "new product," "build from scratch," "plan the whole thing," "full product," no existing codebase | **New Product** |
-| "add a feature," "existing app," "existing codebase," specific technical context provided | **New Feature** |
+| "new product," "build from scratch," "plan the whole thing," "full product," OR no existing codebase (per check above) | **New Product** |
+| "add a feature," "existing app," "existing codebase," specific technical context provided — **requires application code to exist** | **New Feature** |
 
-If ambiguous: ask a single clarifying question — "Is this for an existing product or something new from scratch?"
+If ambiguous, or if input phrasing conflicts with codebase state (e.g., feature-like language in an empty directory): ask a single clarifying question — "Is this for an existing product or something new from scratch?"
 
 ### Step 0.2: Resume Check
 
