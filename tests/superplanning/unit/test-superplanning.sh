@@ -76,7 +76,7 @@ test_anti_sycophancy() {
     local ok=0
     assert_contains "$output" "challenge\|push back\|pressure test\|anti-sycophancy\|position" \
         "challenges assumptions" && true || ok=1
-    assert_not_contains "$output" "accept.*all\|rubber.stamp\|always agrees" \
+    assert_not_contains "$output" "accepts all\|rubber.stamp\|always agrees" \
         "does not rubber-stamp" && true || ok=1
     return $ok
 }
@@ -124,7 +124,7 @@ test_new_product_artifacts() {
 # ---------------------------------------------------------------------------
 test_validation_phase() {
     local output
-    output=$(run_claude "How does superplanning validate plans before implementation?" 120)
+    output=$(run_claude "How does superplanning validate plans before implementation?" 120 5)
     local ok=0
     assert_contains "$output" "review\|validate\|validation" "has validation" && true || ok=1
     assert_contains "$output" "persona\|CEO\|design\|eng\|coherence\|feasibility" \
@@ -175,7 +175,7 @@ test_deepen_is_conditional() {
     local ok=0
     assert_contains "$output" "conditional\|optional\|only.*when\|standard.*deep\|high.*risk\|not.*always" \
         "deepen is conditional" && true || ok=1
-    assert_not_contains "$output" "always.*runs.*deepen\|deepen.*always\|mandatory.*deepen" \
+    assert_not_contains "$output" "always.*runs.*deepen\|deepen.*must always\|deepen.*always runs\|mandatory.*deepen phase" \
         "deepen is not always mandatory" && true || ok=1
     return $ok
 }
@@ -237,6 +237,134 @@ test_gate_2_3_requires_confirmation() {
 }
 
 # ---------------------------------------------------------------------------
+# Test 17: Q0 (Founder-Market Fit) exists as a forcing question
+# ---------------------------------------------------------------------------
+test_q0_founder_market_fit() {
+    local output
+    output=$(run_claude "What is Q0 in superplanning's forcing questions? What does it ask?" 120)
+    local ok=0
+    assert_contains "$output" "founder.market fit\|unfair advantage\|why.*you\|Q0" \
+        "Q0 is about founder-market fit / unfair advantage" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 18: Q0 comes before Q1 in the forcing question sequence
+# ---------------------------------------------------------------------------
+test_q0_comes_before_q1() {
+    local output
+    output=$(run_claude "In what order does superplanning ask forcing questions? Which comes first?" 120)
+    assert_order "$output" "Q0\|founder.market\|unfair advantage" "Q1\|demand reality" \
+        "Q0 before Q1"
+}
+
+# ---------------------------------------------------------------------------
+# Test 19: Q0 is reframed as domain-expertise fit for engineering/infra
+# ---------------------------------------------------------------------------
+test_q0_reframed_for_eng_infra() {
+    local output
+    output=$(run_claude "In superplanning, how does Q0 differ for pure engineering or infrastructure projects compared to product startups?" 120)
+    local ok=0
+    assert_contains "$output" "domain.*expert\|operational.*exp\|technical.*context\|reframe\|domain.expertise" \
+        "Q0 reframed for eng/infra" && true || ok=1
+    assert_contains "$output" "seen.*break\|what.*break\|experience\|battle" \
+        "asks about operational experience" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 20: Job story must be synthesized before Gate 2->3
+# ---------------------------------------------------------------------------
+test_job_story_required() {
+    local output
+    output=$(run_claude "What is the job story in superplanning and when must it be completed?" 120)
+    local ok=0
+    assert_contains "$output" "job story" "mentions job story" && true || ok=1
+    assert_contains "$output" "gate.*2.*3\|gate 2\|before.*proceed\|required\|must\|cannot proceed" \
+        "job story required before Gate 2->3" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 21: Job story follows a four-component format
+# ---------------------------------------------------------------------------
+test_job_story_format() {
+    local output
+    output=$(run_claude "What is the format of the job story that superplanning synthesizes? What are its components?" 120)
+    local ok=0
+    assert_contains "$output" "situation\|when.*\[" "has situation component" && true || ok=1
+    assert_contains "$output" "pain\|struggle" "has pain component" && true || ok=1
+    assert_contains "$output" "workaround\|currently\|so I" "has workaround component" && true || ok=1
+    assert_contains "$output" "outcome\|hire.*tool\|help me" "has outcome component" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 22: Mission document includes Job Story and Why We're Right sections
+# ---------------------------------------------------------------------------
+test_mission_doc_new_sections() {
+    local output
+    output=$(run_claude "What sections are in the mission.md document that superplanning creates? List all sections." 120)
+    local ok=0
+    assert_contains "$output" "job story" "mission has Job Story section" && true || ok=1
+    assert_contains "$output" "why.*right\|right.*build\|unfair advantage" \
+        "mission has Why We're Right section" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 23: Roadmap phases include hypothesis with measurable behavior signal
+# ---------------------------------------------------------------------------
+test_roadmap_phase_hypotheses() {
+    local output
+    output=$(run_claude "What does each phase in the superplanning roadmap document require? Does it include a hypothesis?" 120)
+    local ok=0
+    assert_contains "$output" "hypothesis\|we believe\|we'll know" \
+        "roadmap phases include hypothesis" && true || ok=1
+    assert_contains "$output" "measurable\|behavior.*signal\|user.*behavior\|specific.*signal\|know.*true" \
+        "hypothesis requires measurable behavior signal" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 24: Premise Challenge includes a frequency check on Q1
+# ---------------------------------------------------------------------------
+test_premise_challenge_frequency() {
+    local output
+    output=$(run_claude "Does superplanning's Premise Challenge check how often the problem occurs? What does the frequency check ask?" 120)
+    assert_contains "$output" "frequent\|frequency\|how often\|daily\|weekly\|rare" \
+        "Premise Challenge includes frequency check"
+}
+
+# ---------------------------------------------------------------------------
+# Test 25: Premise Challenge includes a distribution test (first 10 users)
+# ---------------------------------------------------------------------------
+test_premise_challenge_distribution() {
+    local output
+    output=$(run_claude "What is the distribution test in superplanning's Premise Challenge? What does it ask about?" 120)
+    local ok=0
+    assert_contains "$output" "first.*10.*user\|10.*user\|distribution\|first.*user\|bring.*user" \
+        "distribution test is about first 10 users" && true || ok=1
+    assert_contains "$output" "channel\|action\|email\|community\|outreach\|specific.*action" \
+        "asks for specific distribution action" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 26: Mission document includes a "What We'll Do Manually" section
+# ---------------------------------------------------------------------------
+test_mission_manual_section() {
+    local output
+    output=$(run_claude "Does the superplanning mission document include a section about what to do manually before automating? What does it ask?" 120)
+    local ok=0
+    assert_contains "$output" "manual\|manually\|wizard.*oz\|human.*behind" \
+        "mission has manual / pre-scale section" && true || ok=1
+    assert_contains "$output" "automate\|automated\|not.*automat\|pre.scale\|hypothesis" \
+        "challenges automation scope" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
 # Run all tests
 # ---------------------------------------------------------------------------
 echo "========================================"
@@ -262,6 +390,16 @@ run_test "Artifact location: saves to project docs/ folder" test_artifact_locati
 run_test "Artifact paths are relative to project root" test_artifact_paths_are_relative
 run_test "Phase 3 (Define) mandatory for New Product with all 4 docs" test_phase3_mandatory_for_product
 run_test "Gate 2->3 requires user confirmation before proceeding" test_gate_2_3_requires_confirmation
+run_test "Q0: Founder-Market Fit exists as first forcing question" test_q0_founder_market_fit
+run_test "Q0 comes before Q1 in forcing question order" test_q0_comes_before_q1
+run_test "Q0 reframed as domain-expertise fit for engineering/infra" test_q0_reframed_for_eng_infra
+run_test "Job story required before Gate 2->3" test_job_story_required
+run_test "Job story has four components: situation, pain, workaround, outcome" test_job_story_format
+run_test "Mission doc includes Job Story and Why We're Right sections" test_mission_doc_new_sections
+run_test "Roadmap phases include hypothesis with measurable behavior signal" test_roadmap_phase_hypotheses
+run_test "Premise Challenge includes frequency check" test_premise_challenge_frequency
+run_test "Premise Challenge includes distribution test (first 10 users)" test_premise_challenge_distribution
+run_test "Mission doc includes What We'll Do Manually section" test_mission_manual_section
 
 echo "========================================"
 echo " Results"

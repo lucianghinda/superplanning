@@ -1,6 +1,6 @@
 ---
 name: superplanning
-description: Full product planning skill for brainstorming, idea exploration, product planning, and feature design. USE THIS INSTEAD OF generic brainstorming or office-hours skills when the user explores an idea, questions whether to build something, or wants to think through a product or feature decision. This IS the brainstorming process for product contexts — run it instead of, not before, the generic brainstorm skill. Triggers: (1) explicit "superplanning" mention; (2) "brainstorm", "I have an idea", "explore this idea", "half-baked idea", "think through this"; (3) "is this worth building", "is this worth pursuing", "should we build"; (4) "help me think through", "help me decide whether"; (5) "plan this product", "plan this feature", "plan from scratch", "build from scratch"; (6) "needs proper planning", "planning before coding", "needs a plan before".
+description: "Use when the user explores an idea, questions whether to build something, plans a new product from scratch, or designs a feature for an existing codebase. Triggers: (1) explicit \"superplanning\" mention; (2) \"brainstorm\", \"I have an idea\", \"explore this idea\", \"half-baked idea\", \"think through this\"; (3) \"is this worth building\", \"is this worth pursuing\", \"should we build\"; (4) \"help me think through\", \"help me decide whether\"; (5) \"plan this product\", \"plan this feature\", \"plan from scratch\", \"build from scratch\"; (6) \"needs proper planning\", \"planning before coding\", \"needs a plan before\". USE THIS INSTEAD OF generic brainstorming or office-hours skills for product contexts."
 ---
 
 # Superplanning
@@ -154,20 +154,27 @@ Format: present approaches as a single-select multiple choice, then wait for the
 
 Ask the Six Forcing Questions **one at a time**, in order, with two-push discipline:
 
-1. **Q1: Demand Reality** — "What's the strongest evidence you have that someone would be genuinely upset if this disappeared tomorrow?"
-2. **Q2: Status Quo** — "What are users doing right now to solve this problem, even badly?"
-3. **Q3: Desperate Specificity** — "Name the actual human who needs this most — title, consequences, what keeps them up at night."
-4. **Q4: Narrowest Wedge** — "What's the smallest possible version someone would pay real money for this week?"
-5. **Q5: Observation & Surprise** — "Have you watched someone use this? What surprised you?"
-6. **Q6: Future-Fit** — "In 3 years, does this product become more essential or less? Why specifically?"
+1. **Q0: Founder-Market Fit** — "What in your background, experience, or access gives you an unfair advantage on this problem? Why is the best team for this *you*?"
+2. **Q1: Demand Reality** — "What's the strongest evidence you have that someone would be genuinely upset if this disappeared tomorrow?"
+3. **Q2: Status Quo** — "What are users doing right now to solve this problem, even badly?"
+4. **Q3: Desperate Specificity** — "Name the actual human who needs this most — title, consequences, what keeps them up at night."
+5. **Q4: Narrowest Wedge** — "What's the smallest possible version someone would pay real money for this week?"
+6. **Q5: Observation & Surprise** — "Have you watched someone use this? What surprised you?"
+7. **Q6: Future-Fit** — "In 3 years, does this product become more essential or less? Why specifically?"
 
 Stage routing (ask only what isn't already answered):
-- Pre-product (no users yet) → Q1, Q2, Q3
-- Has users (not yet paying) → Q2, Q4, Q5
-- Paying customers → Q4, Q5, Q6
-- Pure engineering/infra → Q2, Q4 only
+- Pre-product (no users yet) → Q0, Q1, Q2, Q3
+- Has users (not yet paying) → Q0, Q2, Q4, Q5
+- Paying customers → Q4, Q5, Q6 (skip Q0 — founder-market fit is already validated by having paying customers)
+- Pure engineering/infra → Q0 (reframed as domain-expertise fit), Q2, Q4 only
 
-After all forcing questions are answered, run the **Premise Challenge** (5-step sequence from forcing-questions.md). This is NOT optional — the Premise Challenge is a required step before Gate 2 → 3 can be evaluated. If you reach the gate checkpoint without having run the Premise Challenge, go back and run it now.
+After all forcing questions are answered, run the **Premise Challenge** (6-step sequence from forcing-questions.md). This is NOT optional — the Premise Challenge is a required step before Gate 2 → 3 can be evaluated. If you reach the gate checkpoint without having run the Premise Challenge, go back and run it now.
+
+After the Premise Challenge, synthesize a **Job Story** from the Q0–Q6 answers:
+
+> "When [situation from Q3], I struggle with [pain from Q1/Q2], so I currently [workaround from Q2]. I'd hire a tool that helps me [outcome from Q4]."
+
+State the job story explicitly. If you cannot complete it from the user's answers, name which question produced insufficient evidence and push once more before proceeding. This job story flows directly into the `mission.md` template in Phase 3. Do not proceed to Gate 2 → 3 without a complete job story.
 
 ### New Feature Mode
 
@@ -268,6 +275,14 @@ Generate product documents sequentially. Present each for approval before genera
 ## One-Sentence Mission
 [The product exists to _____ for _____ so they can _____.]
 
+## Job Story
+When [situation], I struggle with [pain], so I currently [workaround].
+I'd hire a tool that helps me [outcome].
+
+## Why We're Right to Build This
+[For products: The specific skills, experience, domain access, or network that gives this team an unfair advantage on this problem. Not passion — concrete differentiation.
+For engineering/infra: The operational experience, system knowledge, or battle scars that make this team the right owner. Not "we're available" — concrete technical context.]
+
 ## Who We Serve
 [Specific description of the primary user. Not a category — a person.]
 
@@ -299,7 +314,12 @@ Generate product documents sequentially. Present each for approval before genera
 - [item]
 
 ## Go-to-Market Approach
-[How the first users will find this. Not a strategy — an action.]
+[How the first users will find this. Not a strategy — an action. Name the specific channel and the specific first step.]
+
+## What We'll Do Manually (Pre-Scale)
+[What parts of the product will a human do behind the scenes in v1?
+What should NOT be automated until the hypothesis is validated?
+If nothing is manual, challenge whether the MVP scope is too large.]
 
 ## Success Metrics
 | Metric | Target | Timeframe |
@@ -319,17 +339,20 @@ Generate product documents sequentially. Present each for approval before genera
 # Roadmap
 
 ## Phase 1: Prove It Works
-**Goal:** [What hypothesis this proves]
+**Hypothesis:** We believe [assumption about user behavior]. We'll know it's true when [specific measurable user behavior signal — not a shipped feature].
+**Goal:** [What this phase proves]
 **Deliverables:** [Features, not tasks]
 **Exit criteria:** [How we know this phase is done]
 
 ## Phase 2: Make It Repeatable
-**Goal:** [What hypothesis this proves]
+**Hypothesis:** We believe [assumption about user behavior]. We'll know it's true when [specific measurable user behavior signal — not a shipped feature].
+**Goal:** [What this phase proves]
 **Deliverables:** [Features]
 **Exit criteria:** [Criteria]
 
 ## Phase 3: Scale It
-**Goal:** [What hypothesis this proves]
+**Hypothesis:** We believe [assumption about user behavior]. We'll know it's true when [specific measurable user behavior signal — not a shipped feature].
+**Goal:** [What this phase proves]
 **Deliverables:** [Features]
 **Exit criteria:** [Criteria]
 
