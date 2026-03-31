@@ -61,6 +61,10 @@ run_creation_test \
     "New Product mode writes all 4 docs/product/ documents" \
     "$SCRIPT_DIR/run-new-product-test.sh"
 
+run_creation_test \
+    "Every session writes a Q&A log to docs/sessions/" \
+    "$SCRIPT_DIR/run-session-log-test.sh"
+
 echo ""
 echo "=== Summary ==="
 for r in "${RESULTS[@]}"; do

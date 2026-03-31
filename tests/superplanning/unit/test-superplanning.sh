@@ -365,6 +365,36 @@ test_mission_manual_section() {
 }
 
 # ---------------------------------------------------------------------------
+# Test 27: Session Q&A log saves questions, answers, and AI positions
+# ---------------------------------------------------------------------------
+test_session_qa_log() {
+    local output
+    output=$(run_claude "Does the superplanning skill save a log of all questions and answers from the session? Where does it save them and what does the log contain?" 120)
+    local ok=0
+    assert_contains "$output" "session\|log\|Q&A\|question.*answer" \
+        "session Q&A log exists" && true || ok=1
+    assert_contains "$output" "docs/sessions\|sessions/" \
+        "saves to docs/sessions/" && true || ok=1
+    assert_contains "$output" "position\|pushback\|push.back\|AI.*position\|decision" \
+        "captures AI positions or decisions" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
+# Test 28: Session Q&A log runs even on early termination
+# ---------------------------------------------------------------------------
+test_session_qa_log_always_runs() {
+    local output
+    output=$(run_claude "In superplanning, is the session Q&A log saved even when the session ends early, like when a premise fails at Gate 2 or the user triggers the escape hatch?" 120)
+    local ok=0
+    assert_contains "$output" "yes\|always\|regardless\|every session\|no matter" \
+        "Q&A log runs on early termination" && true || ok=1
+    assert_contains "$output" "premise fail\|escape hatch\|early\|terminat\|any phase\|before.*stop\|last action" \
+        "covers early exit scenarios" && true || ok=1
+    return $ok
+}
+
+# ---------------------------------------------------------------------------
 # Run all tests
 # ---------------------------------------------------------------------------
 echo "========================================"
@@ -400,6 +430,8 @@ run_test "Roadmap phases include hypothesis with measurable behavior signal" tes
 run_test "Premise Challenge includes frequency check" test_premise_challenge_frequency
 run_test "Premise Challenge includes distribution test (first 10 users)" test_premise_challenge_distribution
 run_test "Mission doc includes What We'll Do Manually section" test_mission_manual_section
+run_test "Session Q&A log saved with questions, answers, and AI positions" test_session_qa_log
+run_test "Session Q&A log runs even on early termination" test_session_qa_log_always_runs
 
 echo "========================================"
 echo " Results"
