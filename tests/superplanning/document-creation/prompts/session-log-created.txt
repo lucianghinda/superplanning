@@ -1,0 +1,1 @@
+brainstorm this idea: a simple CLI tool for tracking daily water intake. Skip all questions and go through all phases automatically. For every question, checkpoint, or approval gate, approve it and continue. Write the requirements document to docs/brainstorms/ and the session Q&A log to docs/sessions/ as specified by the skill.

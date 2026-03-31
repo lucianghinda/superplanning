@@ -35,6 +35,7 @@ These rules are non-negotiable. Load [Anti-Sycophancy Rules](references/anti-syc
 4. **Anti-sycophancy** — take a position on every answer, state what evidence would change it, push twice on each critical question. Never hedge with banned phrases.
 5. **Escape hatch** — if the user expresses impatience ("just do it," "skip the questions"), acknowledge once, compress to the 2 most critical remaining questions, then proceed. If they push back a second time, proceed immediately.
 6. **YAGNI** — prefer the simplest approach that delivers meaningful value; avoid speculative complexity
+7. **Session Q&A Log** — at the end of every session, regardless of which phases ran or how the session ends (early termination, premise failure, escape hatch, or normal completion), save a session Q&A log before delivering the closing statement. See the "Session Q&A Log" subsection in Phase 7 for format and storage.
 
 ---
 
@@ -705,6 +706,61 @@ Present as single-select:
 
 State the recommended next step with a reason. Not a hedge — a recommendation.
 
+### Session Q&A Log
+
+**This runs every time, in every mode, regardless of which phases completed.** Save this log after all other Phase 7 activities. If the session ends before Phase 7 (premise failure, escape hatch, user abort), save the log immediately as the last action before stopping.
+
+Reconstruct the log from the conversation history. Do not summarize — preserve the substance of each question and answer.
+
+**Storage (mandatory):** The file path is `docs/sessions/YYYY-MM-DD-<topic-slug>.md`. No other directory is acceptable — not `docs/brainstorms/`, not `docs/plans/`, not `docs/product/`. If `docs/sessions/` does not exist, create it. The date is today's date; the slug matches the main topic of the session.
+
+**Template** (write this structure to the file):
+
+    # Session Q&A Log: [Topic]
+
+    **Date:** [YYYY-MM-DD]
+    **Mode:** [Brainstorm / New Product / New Feature]
+    **Scope:** [Lightweight / Standard / Deep]
+    **Phases completed:** [list only phases that actually ran, e.g. "0, 1, 2"]
+    **Outcome:** [e.g. "Requirements document produced", "Premise failed at Gate 2 — session ended", "Full plan produced", "Session compressed via escape hatch"]
+
+    ---
+
+    ## Questions & Answers by Phase
+
+    ### Phase [N]: [Phase Name]
+
+    **Q:** [The question asked — verbatim or close paraphrase]
+    **User:** [The user's answer — verbatim or close paraphrase]
+    **AI position:** [What position the AI took on this answer, including any pushback and the evidence cited]
+    **Resolved:** [The conclusion or decision reached]
+
+    *(Repeat for each question in this phase)*
+
+    ---
+
+    ## Key Decisions
+
+    | Decision | Chosen | Phase | Rationale |
+    |----------|--------|-------|-----------|
+    | [decision] | [choice] | [N] | [why] |
+
+    ---
+
+    ## Positions Where AI Pushed Back
+
+    | Topic | AI Position | User Response | Final Resolution |
+    |-------|------------|---------------|------------------|
+    | [topic] | [what AI argued] | [what user said] | [what was decided] |
+
+After writing:
+1. Commit:
+   ```bash
+   git add docs/sessions/YYYY-MM-DD-<topic-slug>.md
+   git commit -m "docs: add session Q&A log for <topic-slug>"
+   ```
+2. Announce to the user: "Session Q&A log saved to `docs/sessions/YYYY-MM-DD-<topic-slug>.md` and committed."
+
 ---
 
 ## Artifact Storage Conventions
@@ -720,3 +776,4 @@ All paths are **relative to the project root** (the current working directory wh
 | Product MVP plan | `docs/product/` | `mvp-plan.md` |
 | Product roadmap | `docs/product/` | `roadmap.md` |
 | Product tech stack | `docs/product/` | `tech-stack.md` |
+| Session Q&A log | `docs/sessions/` (**not** brainstorms, plans, or product) | `YYYY-MM-DD-<topic-slug>.md` |
