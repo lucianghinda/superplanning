@@ -212,7 +212,7 @@ The full attribution table is in [SOURCES.md](SOURCES.md).
 
 The repositories analyzed:
 
-- [compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin) — `ce:brainstorm`, `ce:plan-beta`, `ce:ideate`, `deepen-plan-beta`, `document-review`
+- [compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin) — `ce:brainstorm`, `ce:plan`, `ce:ideate`, `document-review`
 - [gstack](https://github.com/garrytan/gstack) — `office-hours`, `autoplan`, `plan-ceo-review`, `plan-eng-review`, `plan-design-review`
 - [superpowers](https://github.com/obra/superpowers) — `brainstorming`, `writing-plans`, `subagent-driven-development`
 - [agent-os](https://github.com/buildermethods/agent-os) — `plan-product`, `shape-spec`
@@ -255,7 +255,7 @@ It might be that I got some things wrong, or that I overweighted certain techniq
 
 ## Resources
 
-- [compound-engineering plugin](https://github.com/EveryInc/compound-engineering-plugin) — source for `ce:brainstorm`, `ce:plan-beta`, `deepen-plan-beta`, `document-review`
+- [compound-engineering plugin](https://github.com/EveryInc/compound-engineering-plugin) — source for `ce:brainstorm`, `ce:plan`, `document-review`
 - [gstack skills](https://github.com/garrytan/gstack) — source for `office-hours`, `autoplan`, `plan-ceo-review`, `plan-eng-review`, `plan-design-review`
 - [superpowers skills](https://github.com/obra/superpowers) — source for `brainstorming`, `writing-plans`
 - [agent-os](https://github.com/buildermethods/agent-os) — source for `plan-product`, `shape-spec`
