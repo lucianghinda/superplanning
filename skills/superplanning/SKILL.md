@@ -22,6 +22,7 @@ A unified 7-phase flow for three modes: **Brainstorm**, **New Product**, **New F
 - [Anti-Sycophancy Rules](references/anti-sycophancy-rules.md) — All phases
 - [Review Personas](references/review-personas.md) — Phase 5
 - [Cognitive Patterns](references/cognitive-patterns.md) — Phase 5
+- [Research Agents](references/research-agents.md) — Phase 1 (New Feature), Phase 4 (clarify step), Phase 6
 
 ---
 
@@ -126,16 +127,15 @@ Present a brief landscape summary (3–5 bullets per layer) before moving to Pha
 
 ### New Feature Mode
 
-Run a parallel codebase scan with targeted research agents:
-- Where does the relevant existing code live?
-- What patterns does the codebase already use that this feature should extend?
-- What are the system-wide touch points (models, controllers, jobs, APIs, tests)?
+Load [Research Agents](references/research-agents.md) and select the subset that matches the task — codebase is almost always included; add docs, web, dependencies, UI, UX, or delight only when their trigger conditions apply. Agent count matches complexity — do not run all seven for a one-file change.
 
-Determine whether external research is needed:
-- If the feature involves a thin layer over the existing system → skip external research
-- If the feature introduces a new dependency, integration, or technical approach → research it
+At minimum:
+- **Codebase agent** — where does the relevant existing code live? What patterns does the codebase already use? What are the system-wide touch points (models, controllers, jobs, APIs, tests)?
+- **External research** — if the feature involves a thin layer over the existing system, skip. If it introduces a new dependency, integration, UI change, or technical approach, load the appropriate agents from the reference file.
 
 Run flow analysis: trace the existing user flow that this feature modifies or extends.
+
+**Research the problem, not the proposal.** If the user's input included a proposed solution, each agent researches the underlying problem independently first.
 
 **Gate 1 → 2:** Research is complete. Context is established.
 
@@ -416,6 +416,26 @@ If requirements need formalization: write a requirements document (same template
 
 **Goal:** Break work into concrete, implementable units. (Brainstorm mode skips this phase unless the user explicitly asks to proceed to planning.)
 
+### Step 4.0: Clarify Before Structuring (New Feature and New Product only)
+
+Before writing a single unit, inventory the ambiguities that Phase 3 did not resolve — the decisions an engineer would still have to invent at implementation time. Ask them now, while structure is cheap to change.
+
+Look for these triggers:
+- **Library/framework choice not fixed** (e.g., "use a background job" without naming the queue)
+- **Data model shape not fixed** (e.g., new table vs. extending existing one)
+- **Integration boundary unspecified** (e.g., sync vs. async, new endpoint vs. extending one)
+- **Test depth unstated** (unit only, integration, end-to-end?)
+- **Rollout/migration not addressed** (backfill needed? feature flag? gradual rollout?)
+- **Error surface unspecified** (fail loud? degrade silently? user-visible message?)
+
+Batch the ambiguities you find into a **single** `AskUserQuestion` call with single-select or multi-select options. This is the one place in superplanning where batching is explicitly allowed — these questions are all about structure for the same feature, and asking them separately would fragment the flow.
+
+If there are zero ambiguities, say so and proceed. Do not manufacture questions.
+
+**Research agent option:** If ambiguities are technical and you have low confidence on the right answer, load [Research Agents](references/research-agents.md) and run targeted agents (Docs, Dependencies, UI, UX) before presenting options. Match the agent count to the ambiguity — if only one question needs research, run one agent.
+
+### Step 4.1: Structure the Work
+
 ### Brainstorm Mode
 
 Skip. If user asks to continue to implementation planning, treat as New Feature mode from this point.
@@ -628,17 +648,21 @@ Select the **top 2–5 highest-scoring sections** for deepening. Do not deepen a
 
 ### Research Agent Mapping
 
-For each selected section, map to the appropriate research approach:
+Load [Research Agents](references/research-agents.md) for the full taxonomy and trigger conditions. For each selected section, map to the appropriate agent(s):
 
-| Section type | Research approach |
-|-------------|-------------------|
-| Technical architecture | Codebase scan + framework docs |
-| Market/competitor | WebSearch for recent developments |
-| User behavior | Search for case studies, research |
-| Security | Search for known vulnerabilities in proposed approach |
-| Integration | API docs + known failure modes |
+| Section type | Primary agents |
+|-------------|----------------|
+| Technical architecture | Codebase + Docs (+ Dependencies if versions matter) |
+| Market/competitor | Web |
+| User behavior | Web + UX |
+| Visual design | UI (+ Delight if polish is in scope) |
+| Interaction / accessibility | UX |
+| Security | Web (known vulnerabilities) + Docs (framework security features) |
+| Integration | Docs + Web (failure modes) |
 
-Run research agents in parallel for all selected sections.
+Run selected agents in parallel. Match agent count to section complexity — most sections need 1–2 agents, not all 7.
+
+**After agents return:** if findings contradict the plan's assumptions, surface the contradiction before strengthening. Do not silently rewrite sections to match new research without naming what changed.
 
 ### Selective Strengthening
 
